@@ -1,0 +1,32 @@
+#include <stdbool.h>
+#include <string.h>
+
+bool wordBreak(char* s, char** wordDict, int wordDictSize) {
+    int len = strlen(s);
+    bool dp[301] = {false}; // Size 301 based on problem constraint (s.length <= 300)
+    dp[0] = true;           // Base case: an empty string is always valid
+
+    // i is the end of our current substring
+    for (int i = 1; i <= len; i++) {
+        // j is the split point inside our substring
+        for (int j = 0; j < i; j++) {
+            
+            // If the left part s[0...j-1] is valid, check the right part s[j...i-1]
+            if (dp[j]) {
+                int subLen = i - j;
+                
+                // Look for the right part in the dictionary
+                for (int k = 0; k < wordDictSize; k++) {
+                    if (strlen(wordDict[k]) == subLen && strncmp(&s[j], wordDict[k], subLen) == 0) {
+                        dp[i] = true; // Found a match!
+                        break;
+                    }
+                }
+            }
+            
+            if (dp[i]) break; // Already valid, no need to check other split points
+        }
+    }
+
+    return dp[len]; // Return if the full string is valid
+}
