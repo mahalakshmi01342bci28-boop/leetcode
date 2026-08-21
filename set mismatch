@@ -1,0 +1,24 @@
+int* findErrorNums(int* nums, int numsSize, int* returnSize) {
+    int * arr;
+    int * freq;
+    *returnSize=2;
+    arr=(int *)(malloc(2*sizeof(int)));
+    freq=(int *)calloc(numsSize+1,sizeof(int));
+    for(int i=0;i<numsSize;i++)
+    {
+         freq[nums[i]]=freq[nums[i]]+1;
+    }
+    for(int i=1;i<=numsSize;i++)
+    {
+        if(freq[i]==2)
+        {
+            arr[0]=i;
+        }
+        else if(freq[i]==0)
+        {
+            arr[1]=i;
+        }
+    }
+    return arr;
+    free(arr);
+}
