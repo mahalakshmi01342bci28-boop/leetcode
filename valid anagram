@@ -1,0 +1,13 @@
+bool isAnagram(char* s, char* t) {
+    int s_tab[26];
+    int t_tab[26];
+    int i;
+    int j;
+    int x;
+    int y;
+
+    x = 0;
+    y = 0;
+    i = 0;
+    j = 0;
+    while (s[i] != '\0')
