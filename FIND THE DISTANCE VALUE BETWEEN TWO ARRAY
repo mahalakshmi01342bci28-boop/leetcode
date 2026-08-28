@@ -1,0 +1,33 @@
+int *applyOperations(int *nums, int numsSize, int *returnSize)
+{
+  (*returnSize) = numsSize;
+
+  int firstNaturalIndex = 0;
+  for (int i = 0; i < numsSize - 1; i++)
+  {
+    if (nums[i] && nums[i] == nums[i + 1])
+    {
+      nums[i] += nums[i];
+      nums[i + 1] = 0;
+    }
+  }
+  for (int i = 0; i < numsSize - 1; i++)
+  {
+    if (nums[i] == 0)
+    {
+      if (firstNaturalIndex < i)
+      {
+        firstNaturalIndex = i + 1;
+      }
+      while (firstNaturalIndex != numsSize && !nums[firstNaturalIndex])
+      {
+        firstNaturalIndex++;
+      }
+      if (firstNaturalIndex >= numsSize)
+        return nums;
+      nums[i] = nums[firstNaturalIndex];
+      nums[firstNaturalIndex++] = 0;
+    }
+  }
+  return nums;
+}
