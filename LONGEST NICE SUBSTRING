@@ -1,0 +1,45 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+char* longestNiceSubstring(char* s) {
+    int len = strlen(s);
+    int maxLen = 0;
+    int startIdx = 0;
+    
+
+    for (int i = 0; i < len; i++) {
+        bool upper[26] = {false};
+        bool lower[26] = {false};
+        
+
+        for (int j = i; j < len; j++) {
+
+            if (s[j] >= 'A' && s[j] <= 'Z') upper[s[j] - 'A'] = true;
+            if (s[j] >= 'a' && s[j] <= 'z') lower[s[j] - 'a'] = true;
+            
+
+            bool isNice = true;
+            for (int k = 0; k < 26; k++) {
+
+                if (upper[k] != lower[k]) {
+                    isNice = false;
+                    break;
+                }
+            }
+            
+
+            int currentLen = j - i + 1;
+            if (isNice && currentLen > maxLen) {
+                maxLen = currentLen;
+                startIdx = i;
+            }
+        }
+    }
+    
+
+    char* result = (char*)malloc((maxLen + 1) * sizeof(char));
+    strncpy(result, s + startIdx, maxLen);
+    result[maxLen] = '\0'; 
+    
+    return result;
+}
