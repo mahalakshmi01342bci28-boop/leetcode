@@ -1,0 +1,45 @@
+#include <stdbool.h>
+#include <stdlib.h>
+typedef struct {
+    int key;   
+    int value; 
+} HashNode;
+bool containsNearbyDuplicate(int* nums, int numsSize, int k) {
+   
+    int hashSize = numsSize * 2;
+    HashNode* hashTable = (HashNode*)calloc(hashSize, sizeof(HashNode));
+    
+    for (int i = 0; i < numsSize; i++) {
+        int key = nums[i];
+        
+        
+        unsigned int hashIndex = (unsigned int)key % hashSize;
+        
+       
+        while (hashTable[hashIndex].value != 0) {
+            if (hashTable[hashIndex].key == key) {
+                int prevIndex = hashTable[hashIndex].value - 1;
+                
+                if (i - prevIndex <= k) {
+                    free(hashTable);
+                    return true;
+                }
+                
+
+                hashTable[hashIndex].value = i + 1;
+                break;
+            }
+            hashIndex = (hashIndex + 1) % hashSize;
+        }
+        
+        // If an empty slot was found, insert the new key and index
+        if (hashTable[hashIndex].value == 0) {
+            hashTable[hashIndex].key = key;
+            hashTable[hashIndex].value = i + 1; // Store 1-based index to treat 0 as empty
+        }
+    }
+    
+    // Clean up allocated memory
+    free(hashTable);
+    return false;
+}
